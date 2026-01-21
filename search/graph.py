@@ -21,7 +21,45 @@ class Graph:
         * If there is an end node input and a path does not exist, return None
 
         """
-        return
+        # ========================================
+        if not self.graph.nodes():
+            return []
+        
+        if start not in self.graph:
+            return []
+        
+        if end is not None and end not in self.graph:
+            return None
+        
+        visited = set()
+        queue = [start]
+        visited.add(start)
+        result = [start]
+        parent = {start: None}
+        
+        while queue:
+            node = queue.pop(0)
+            
+            if end is not None and node == end:
+                path = []
+                curr = end
+                while curr is not None:
+                    path.append(curr)
+                    curr = parent[curr]
+                return path[::-1]
+            
+            for neighbor in self.graph.neighbors(node):
+                if neighbor not in visited:
+                    visited.add(neighbor)
+                    queue.append(neighbor)
+                    result.append(neighbor)
+                    parent[neighbor] = node
+        
+        if end is not None:
+            return None
+        
+        return result
+        # ========================================
 
 
 
