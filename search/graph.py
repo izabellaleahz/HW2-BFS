@@ -1,5 +1,16 @@
 import networkx as nx
 
+
+class NodeNotFoundError(ValueError):
+    """Exception raised when a node is not found in the graph."""
+    pass
+
+
+class EmptyGraphError(ValueError):
+    """Exception raised when attempting to traverse an empty graph."""
+    pass
+
+
 class Graph:
     """
     Class to contain a graph and your bfs function
@@ -21,15 +32,14 @@ class Graph:
         * If there is an end node input and a path does not exist, return None
 
         """
-        # ========================================
         if not self.graph.nodes():
-            return []
+            raise EmptyGraphError("Cannot perform BFS on an empty graph")
         
         if start not in self.graph:
-            return []
+            raise NodeNotFoundError(f"Start node '{start}' not found in graph")
         
         if end is not None and end not in self.graph:
-            return None
+            raise NodeNotFoundError(f"End node '{end}' not found in graph")
         
         visited = set()
         queue = [start]
@@ -59,7 +69,6 @@ class Graph:
             return None
         
         return result
-        # ========================================
 
 
 
